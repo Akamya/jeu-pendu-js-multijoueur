@@ -1,14 +1,13 @@
 const ws = new WebSocket('ws://localhost:8080');
 
-// connect to the server
 ws.onopen = () => {
+    console.log('connected');
     ws.send('Hello server!');
-}
+};
 
-// On server message
 ws.onmessage = (event) => {
-    console.log('message => ', event.data);
-}
+    console.log(event.data);
+};
 
 // Add query selector for the form and the button
 const form = document.querySelector('form');

@@ -14,8 +14,10 @@ var game = new Game();
 // When a client connects to the server
 wss.on('connection', function connection(ws) {
     // Add the client to the WSManager
+    ws.id = Date.now();
     wsManager.addClient(ws);
-    
+    // Send the list of connected users to all the clients
+    wsManager.broadcast({type: 'users', users: wsManager.users});
     // When the client sends a message
     ws.on('message', message => {
         console.log('received: %s', message);

@@ -13,14 +13,26 @@ module.exports = class WSManager {
     }
     
     broadcast(message) {
-        this.clients.forEach(client => client.send(message));
+        this.clients.forEach(client => client.send(JSON.stringify(message)));
     }
     
     broadcastExcept(message, client) {
         this.clients.forEach(c => {
             if (c !== client) {
-                c.send(message);
+                c.send(JSON.stringify(message));
             }
         });
+    }
+
+    getUserFromId(id) {
+        return this.clients.find(c => c.id === id);
+    }
+
+    get users() {
+        return this.clients.map(c => c.id);
+    }
+
+    get size() {
+        return this.clients.length;
     }
 }
