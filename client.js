@@ -7,7 +7,7 @@ ws.onopen = () => {
 
 // On server message
 ws.onmessage = (event) => {
-    console.log(event.data);
+    console.log('message => ', event.data);
 }
 
 // Add query selector for the form and the button

@@ -20,7 +20,7 @@ wss.on('connection', function connection(ws) {
     ws.on('message', message => {
         console.log('received: %s', message);
         // Broadcast the message to all the clients
-        wsManager.broadcast(message);
+        wsManager.broadcast("Hello !");
     });
     
     // When the client disconnects
