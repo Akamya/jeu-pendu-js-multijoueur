@@ -6,9 +6,6 @@ let gameMenu = document.getElementById("gameMenu");
 waitingScreen.style.display = 'block';
 gameScreen.style.display = 'none';
 
-
-
-
 ws.onopen = () => {
     console.log('connected');
     ws.send(JSON.stringify({type: 'message', message: 'Hello server!'}));
