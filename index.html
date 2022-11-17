@@ -1,14 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <title>Web Socket Demo</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8" />
+  <style>
+    .waitingSpinner {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #FFFFFF;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+    }
+    
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    </style>
+  <title>Web Socket Demo</title>
+</head>
+
+<body>
+  <div id="mainMenu">
+    <h1>Waiting for a game...</h1>
+    <div id="waitingSpinner"></div>
+    <div id="gameCJ">
+      <input type="button" value="Create game" id="createGame"/>
+      <br />
+      <br />
+      <div id="joinGame">
+        <input type="text" placeholder="Join game" id="joinGame"/>
+        <input type="button" value="Join game" id="joinGame"/>
+
+      </div>
+    </div>
+  </div>
+  <div id="gameScreen" style="display: none">
     <ul id="mot" style="list-style-type: none;"></ul>
 
     <form>
-      Lettre : <input id='lettre' type="text"/>
+      Lettre : <input id='lettre' type="text" />
       <span id="vie"> </span>
       <br />
       <button type="submit">Jouer</button>
@@ -19,6 +58,8 @@
     <br />
     <br />
     <ul id="list" style="list-style-type: none;"></ul>
-    <script src="client.js"></script>
-  </body>
+  </div>
+  <script src="client.js"></script>
+</body>
+
 </html>
