@@ -13,6 +13,7 @@ ws.onopen = () => {
 
 ws.onmessage = (event) => {
     // Parse the message
+    console.log(event.data);
     let obj = JSON.parse(event.data);
     // If the message is a list of users
     if (obj.type === 'uid') {
@@ -21,7 +22,7 @@ ws.onmessage = (event) => {
         console.log('My ID is ' + ws.uid);
     } else if (obj.type === 'message') {
         // If the message is a message
-    } else if (obj.type === 'gameCreated') {
+    } else if (obj.type === 'gameCreated' || obj.type === 'gameJoined') {
         // If the message is a game created
         // Hide the waiting screen
         waitingScreen.style.display = 'none';
@@ -50,8 +51,10 @@ document.querySelector('#createGame').addEventListener('click', () => {
 
 // Add listener to the join button, then send join request and user ID
 document.querySelector('#joinGame').addEventListener('click', () => {
-    ws.send(JSON.stringify({type: 'request', request: 'joinGame', id: document.getElementById("gameID").value}));
-    console.log({type: 'request', request: 'joinGame', id: document.getElementById("gameID").value});
+    let gameID = document.getElementById("joinGameTxt").value;
+    let obj = {type: 'request', request: 'joinGame', id: 55555};
+    console.log(obj);
+    ws.send(JSON.stringify(obj));
 });
 
 // Add query selector for the form and the button

@@ -43,10 +43,14 @@ wss.on('connection', function connection(ws) {
                 console.log('Game list: ' + JSON.stringify(game.gameList) + "\n");
                 console.log('Players in game: ' + game.gameList[game.gameList.length - 1].users + "\n");
             } else if(obj.request === 'joinGame') {
+                console.log(obj);
                 // Add the client to the game
-                game.addPlayerToGame(ws.id, obj.id);
-                // Send the list of players to all the client
-                wsManager.sendToAll(JSON.stringify({type: 'players', players: game.getPlayersFromGame(obj.id)}));
+                if(game.addPlayerToGame(ws.id, obj.id)) {
+                    // Send the list of players to all the client
+                    wsManager.broadcast(JSON.stringify({type: 'players', players: game.getPlayersFromGame(obj.id)}));
+                    // Send join game message to the client
+                    ws.send(JSON.stringify({type: 'gameJoined', id: obj.id}));
+                }
 
                 // For debugging purpose only, show the list of games and the list of players in the game
                 console.log('Game list: ' + JSON.stringify(game.gameList) + "\n");

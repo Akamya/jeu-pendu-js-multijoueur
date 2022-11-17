@@ -15,7 +15,7 @@ module.exports = class Game {
             letters: [],
             state: 'waiting',
             tries: 10,
-            id: id, 
+            id: 55555, 
             started: false,
             finished: false
         }); 
@@ -37,6 +37,7 @@ module.exports = class Game {
         let game = this.gameList.find(g => g.id === gameId);
         // On ajoute le joueur à la partie
         game.users.push(id);
+        return true;
     }
 
     // Fonction pour laisser un joueur rejoindre une partie
