@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "nodemon": "^2.0.20",
-    "uuid": "^9.0.0",
     "ws": "^8.11.0"
   },
   "author": "Alenya",
