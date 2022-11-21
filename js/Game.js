@@ -16,7 +16,7 @@ module.exports = class Game {
             letters: [],
             state: 'waiting',
             tries: 10,
-            id: id, 
+            id: 55555, 
             started: false,
             finished: false
         }); 
@@ -33,11 +33,12 @@ module.exports = class Game {
     }
 
     // Fonction pour ajouter un joueur à une partie
-    addPlayerToGame(id, user) {
+    addPlayerToGame(id, gameId) {
         // On récupère la partie
-        let game = this.gameList.find(g => g.id === id);
+        let game = this.gameList.find(g => g.id === gameId);
         // On ajoute le joueur à la partie
-        game.users.push(user);
+        game.users.push(id);
+        return true;
     }
 
     // Fonction pour laisser un joueur rejoindre une partie
@@ -46,5 +47,13 @@ module.exports = class Game {
         let game = this.gameList.find(g => g.id === id);
         // On ajoute le joueur à la partie
         game.users.push(user);  
+    }
+
+    // Fonction pour retourner la liste des joueurs d'une partie
+    getPlayersFromGame(id) {
+        // On récupère la partie
+        let game = this.gameList.find(g => g.id === id);
+        // On retourne la liste des joueurs
+        return game.users;
     }
 }

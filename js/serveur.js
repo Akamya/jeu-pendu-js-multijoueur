@@ -17,22 +17,44 @@ wss.on('connection', function connection(ws) {
     ws.id = Date.now();
     wsManager.addClient(ws);
     // Send the list of connected users to all the clients
-    wsManager.broadcast({type: 'users', users: wsManager.users});
+    ws.send(JSON.stringify({type: 'uid', uid: ws.id}));
+
+    // For debugging purpose only, show the list of connected users
+    console.log('Connected users: ' + wsManager.users);
 
     // When the client sends a message
     ws.on('message', message => {
-        console.log('received: %s', message);
         let obj = JSON.parse(message);
-        console.log(obj.message);
         if (obj.type === 'message') {
-            // Broadcast the message to all the clients
-            wsManager.broadcast({type: 'message', message: obj.message, user: ws.id});
+            // Print the message in the console
+            console.log('received: %s\n', obj.message);
         } else if (obj.type === 'request') {
             if (obj.request === 'createGame') {
                 // Create a game
                 game.createGame();
                 // Send the game ID to the client
                 ws.send(JSON.stringify({type: 'gameCreated', id: game.gameList[game.gameList.length - 1].id}));
+                // Add the client to the game
+                game.addPlayerToGame(ws.id, game.gameList[game.gameList.length - 1].id);
+                // Send the list of players to the client
+                ws.send(JSON.stringify({type: 'players', players: game.getPlayersFromGame(game.gameList[game.gameList.length - 1].id)}));
+
+                // For debugging purpose only, show the list of games and the list of players in the game
+                console.log('Game list: ' + JSON.stringify(game.gameList) + "\n");
+                console.log('Players in game: ' + game.gameList[game.gameList.length - 1].users + "\n");
+            } else if(obj.request === 'joinGame') {
+                console.log(obj);
+                // Add the client to the game
+                if(game.addPlayerToGame(ws.id, obj.id)) {
+                    // Send the list of players to all the client
+                    wsManager.broadcast(JSON.stringify({type: 'players', players: game.getPlayersFromGame(obj.id)}));
+                    // Send join game message to the client
+                    ws.send(JSON.stringify({type: 'gameJoined', id: obj.id}));
+                }
+
+                // For debugging purpose only, show the list of games and the list of players in the game
+                console.log('Game list: ' + JSON.stringify(game.gameList) + "\n");
+                console.log('Players in game: ' + game.getPlayersFromGame(obj.id) + "\n");
             }
         }
     });

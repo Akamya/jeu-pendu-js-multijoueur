@@ -13,18 +13,33 @@ ws.onopen = () => {
 
 ws.onmessage = (event) => {
     // Parse the message
+    console.log(event.data);
     let obj = JSON.parse(event.data);
     // If the message is a list of users
-    if (obj.type === 'users') {
+    if (obj.type === 'uid') {
+        // Set the user ID
+        ws.uid = obj.uid;
+        console.log('My ID is ' + ws.uid);
     } else if (obj.type === 'message') {
         // If the message is a message
-    } else if (obj.type === 'gameCreated') {
+    } else if (obj.type === 'gameCreated' || obj.type === 'gameJoined') {
         // If the message is a game created
         // Hide the waiting screen
         waitingScreen.style.display = 'none';
         // Show the game screen
         gameScreen.style.display = 'block';
-        
+        // Set the game ID in the game screen
+        document.getElementById("gameID").innerHTML = obj.id;
+    } else if (obj.type === 'players') {
+        // If the message is a list of players
+        // Update the html list of players
+        let players = document.getElementById("players");
+        players.innerHTML = '';
+        obj.players.forEach(player => {
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(player));
+            players.appendChild(li);
+        });
     }
 };
 
@@ -34,6 +49,13 @@ document.querySelector('#createGame').addEventListener('click', () => {
     console.log({type: 'request', request: 'createGame'});
 });
 
+// Add listener to the join button, then send join request and user ID
+document.querySelector('#joinGame').addEventListener('click', () => {
+    let gameID = document.getElementById("joinGameTxt").value;
+    let obj = {type: 'request', request: 'joinGame', id: 55555};
+    console.log(obj);
+    ws.send(JSON.stringify(obj));
+});
 
 // Add query selector for the form and the button
 const form = document.querySelector('form');
