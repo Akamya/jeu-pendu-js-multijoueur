@@ -53,7 +53,7 @@ document.querySelector('#createGame').addEventListener('click', () => {
 // Add listener to the join button, then send join request and user ID
 document.getElementById('joinGameBtn').addEventListener('click', () => {
     let gameID = document.getElementById('joinGameTxt').value;
-    let obj = {type: 'request', request: 'joinGame', id: 55555};
+    let obj = {type: 'request', request: 'joinGame', id: gameID};
     console.log(obj);
     ws.send(JSON.stringify(obj));
 });

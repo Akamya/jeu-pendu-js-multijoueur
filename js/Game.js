@@ -16,7 +16,7 @@ module.exports = class Game {
             letters: [],
             state: 'waiting',
             tries: 10,
-            id: 55555, 
+            id: this.makeid(5), 
             started: false,
             finished: false,
             gameMaster: '',
