@@ -6,6 +6,7 @@ module.exports = class Game {
 
     // Fonction pour créer une partie
     createGame() {
+        console.log("Game is being created");
         // On crée un id unique pour la partie
         let id = this.makeid(5);
         // On ajoute la partie à la liste des parties
