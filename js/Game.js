@@ -6,7 +6,7 @@ module.exports = class Game {
 
     // Fonction pour créer une partie
     createGame() {
-        console.log("Game is being created");
+        console.log('Game is being created');
         // On crée un id unique pour la partie
         let id = this.makeid(5);
         // On ajoute la partie à la liste des parties
@@ -18,7 +18,9 @@ module.exports = class Game {
             tries: 10,
             id: 55555, 
             started: false,
-            finished: false
+            finished: false,
+            gameMaster: '',
+            gameHost: ''
         }); 
     }
 
@@ -56,4 +58,58 @@ module.exports = class Game {
         // On retourne la liste des joueurs
         return game.users;
     }
+
+    // Fonction pour supprimer un joueur d'une partie
+    removePlayerFromGame(id, gameId) {
+        // On récupère la partie
+        let game = this.gameList.find(g => g.id === gameId);
+        // On supprime le joueur de la partie
+        game.users.splice(game.users.indexOf(id), 1);
+    }
+
+    // Fonction pour supprimer une partie
+    removeGame(id) {
+        // On supprime la partie de la liste des parties
+        this.gameList.splice(this.gameList.indexOf(id), 1);
+    }
+
+    // Fonction pour retourner la liste des parties
+    getGameList() {
+        return this.gameList;
+    }
+
+    // Fonction pour retourner une partie
+    getGame(id) {
+        return this.gameList.find(g => g.id === id);
+    }
+
+    // Fonction pour retourner le nombre de parties
+    getGameCount() {
+        return this.gameList.length;
+    }
+
+    // Fonction pour retourner le nombre de joueurs dans une partie
+    getPlayerCount(id) {
+        // On récupère la partie
+        let game = this.gameList.find(g => g.id === id);
+        // On retourne le nombre de joueurs
+        return game.users.length;
+    }
+
+    // Fonction pour donner l'hôte de la partie
+    setGameHost(id, user) {
+        // On récupère la partie
+        let game = this.gameList.find(g => g.id === id);
+        // On donne l'hôte à la partie
+        game.gameHost = user;
+    }
+
+    // Fonction pour créer un game master de manière aléatoire
+    setGameMaster(id) {
+        // On récupère la partie
+        let game = this.gameList.find(g => g.id === id);
+        // On définit le game master
+        game.gameMaster = game.users[Math.floor(Math.random() * game.users.length)];
+    }
+    
 }
